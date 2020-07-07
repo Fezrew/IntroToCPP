@@ -5,12 +5,18 @@ public:
 	Entity();
 	~Entity();
 
-	virtual int attack();
-	virtual void takeDamage(int damage);
+	virtual int attack() 
+	{
+		return 0;
+	}
+	virtual void takeDamage(int damage)
+	{
+		return;
+	}
 	bool isAlive();
 	
 
-private:
+protected:
 	int health;
 	int maxHealth;
 };

@@ -22,13 +22,27 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+// Is there a Marine Alive?
+bool marineAlive(vector<Marine> squad)
+{
+	return squad.size() > 0;
+}
+
+// Is there a zergling Alive
+bool zerglingAlive(vector<Zergling> swarm)
+{
+	return swarm.size() > 0;
+}
+
 int main()
 {
 	vector<Marine> squad;
 	vector<Zergling> swarm;
 
-	int squadSize = 10;
-	int swarmSize = 20;
+	const int squadSize = 10;
+	const int swarmSize = 19;
+
+	squad.reserve(squadSize);
 
 	// Set up the Squad and the Swarm at their initial sizes listed above
 
@@ -38,17 +52,17 @@ int main()
 		squad.push_back(m);
 	}
 
-	for (size_t i = 0; i < squadSize; i++)
+	Zergling z;
+	for (size_t i = 0; i < swarmSize; i++)
 	{
-		Zergling z;
 		swarm.push_back(z);
 	}
 
 	cout << "A squad of marines approaches a swarm of Zerglings and opens fire! The Zerglings charge!\n";
 	// Attack each other until only one team is left alive
-	while (marineAlive() || zerglingAlive(swarm)) // If anyone is left alive to fight . . .
+	while (marineAlive(squad) && zerglingAlive(swarm)) // If anyone is left alive to fight . . .
 	{
-		if (marineAlive()) // if there's at least one marine alive
+		if (marineAlive(squad)) // if there's at least one marine alive
 		{
 			for (size_t i = 0; i < squadSize; i++) // go through the squad
 			{
@@ -83,23 +97,11 @@ int main()
 
 	// Once one team is completely eliminated, the fight ends and one team wins
 	cout << "The fight is over. ";
-	if (marineAlive())
+	if (marineAlive(squad))
 	{
 		cout << "The Marines win." << endl;
 	} else 
 	{
 		cout << "The Zerg win." << endl;
 	}
-}
-
-// Is there a Marine Alive?
-bool marineAlive()
-{
-	return squad.size() > 0;
-}
-
-// Is there a zergling Alive
-bool zerglingAlive(vector<Zergling> swarm)
-{
-	return swarm.size();
 }

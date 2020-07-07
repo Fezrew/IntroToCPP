@@ -4,7 +4,8 @@
 
 Entity::Entity()
 {
-
+	health = 100;
+	maxHealth = 100;
 }
 
 
