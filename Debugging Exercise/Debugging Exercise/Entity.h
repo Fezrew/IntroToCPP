@@ -1,23 +1,21 @@
 #pragma once
+
 class Entity
 {
 public:
 	Entity();
 	~Entity();
+	Entity(int h);
 
-	virtual int attack() 
-	{
-		return 0;
-	}
-	virtual void takeDamage(int damage)
-	{
-		return;
-	}
+	virtual int attack() = 0;
+	virtual void takeDamage(int damage);
 	bool isAlive();
 	
 
 protected:
+	/*int maxHealth;*/
+
+private:
 	int health;
-	int maxHealth;
 };
 
