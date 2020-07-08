@@ -20,7 +20,9 @@
 #include <time.h>
 #include <Windows.h>
 
-//If you want random health & damage, uncomment this define & all "#if random true" expressions in Main, Marine.cpp, Marine.h and Zergling.cpp
+//If you want random health & damage (Despite true random always giving warnings), 
+//uncomment this define & all "#if random true" expressions in Main, Marine.cpp, Marine.h and Zergling.cpp
+
 //#define random
 
 using std::vector;
