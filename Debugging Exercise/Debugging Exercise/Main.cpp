@@ -19,8 +19,8 @@
 #include "Zergling.h"
 #include <time.h>
 
-//If you want random health & damage, uncomment this define & all "true" expressions in Main, Marine.cpp, and Zergling.cpp
-//#define random 
+//If you want random health & damage, uncomment this define & all "#if random true" expressions in Main, Marine.cpp, and Zergling.cpp
+//#define random
 
 using std::vector;
 using std::cout;
@@ -51,7 +51,7 @@ int main()
 
 	// Set up the Squad and the Swarm at their initial sizes listed above
 
-#if random //true
+#if random true
 
 	srand(time(nullptr));
 
