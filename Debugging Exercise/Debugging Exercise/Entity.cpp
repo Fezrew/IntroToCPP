@@ -4,7 +4,8 @@
 
 Entity::Entity()
 {
-	health = 100;
+	maxHealth = 100;
+	health = maxHealth;
 }
 
 Entity::~Entity()
@@ -14,7 +15,8 @@ Entity::~Entity()
 
 Entity::Entity(int h)
 {
-	this->health = h;
+	this->maxHealth = h;
+	health = maxHealth;
 }
 
 void Entity::takeDamage(int damage)

@@ -20,10 +20,18 @@ Marine::~Marine()
 {
 }
 
+#if random //true
+void Marine::isLegend()
+{
+	legendAttack = rand() % 15 + 10;
+	legendary = true;
+}
+#endif
+
 int Marine::attack()
 {
 #if random //true
-	return rand() % 50 +1;
+	return rand() % (26 + legendAttack) + 25 + legendAttack;
 #else
 	return 10;
 #endif
