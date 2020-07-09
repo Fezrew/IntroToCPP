@@ -147,7 +147,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CPPTicTacToe.cpp" />
+    <ClCompile Include="ConsoleGame.cpp" />
+    <ClCompile Include="ConsoleProject.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="TicTacToeConsole.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConsoleGame.h" />
+    <ClInclude Include="TicTacToeConsole.h" />
+    <ClInclude Include="Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
