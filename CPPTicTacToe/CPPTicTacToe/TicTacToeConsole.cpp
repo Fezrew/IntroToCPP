@@ -15,7 +15,7 @@ namespace TicTacToe
 
 		cout << "Loading board please wait...\n";
 
-		drawBoard();
+		DrawBoard();
 		isGameRunning = true;
 	}
 
@@ -27,18 +27,29 @@ namespace TicTacToe
 
 	void TicTacToeConsole::Update()
 	{
-		askForPlayerInput();
+		AskForPlayerInput();
 	}
 
 	void TicTacToeConsole::Draw()
 	{
-		drawBoard();
+		DrawBoard();
 	}
 
-	void TicTacToeConsole::askForPlayerInput()
+	void TicTacToeConsole::InitialiseBoard()
+	{
+		for (int row = 0; row < BoardSize; row++)
+		{
+			for (int col = 0; col < BoardSize; col++)
+			{
+				BoardData[row][col] = 0;
+			}
+		}
+	}
+
+	void TicTacToeConsole::AskForPlayerInput()
 	{
 		string userInput;
-		cout << "Enter command (Q)uit >";
+		cout << "Enter command (Q)uit > ";
 		cin.ignore(cin.rdbuf()->in_avail());
 		cin >> userInput;
 
@@ -48,8 +59,45 @@ namespace TicTacToe
 		}
 	}
 
-	void TicTacToeConsole::drawBoard()
+	void TicTacToeConsole::DrawBoard()
 	{
-		cout << "Draw board" << endl;
+		system("cls");
+		//cout << "Draw board" << endl;
+
+		for (int row = 0; row < BoardSize; row++)
+		{
+			for (int col = 0; col < BoardSize; col++)
+			{
+				if (BoardData[row][col] == 1)
+				{
+					cout << "X";
+				}
+				else if (BoardData[row][col] == 2)
+				{
+					cout << "O";
+				}
+				else
+				{
+					cout << " ";
+				}
+				
+				if (col < BoardSize - 1)
+				{
+					cout << " | ";
+				}
+				else
+				{
+					cout << endl;
+				}
+			}
+			if (row < BoardSize - 1)
+			{
+				cout << "----------" << endl;
+			}
+			else
+			{
+				cout << endl;
+			}
+		}
 	}
 }

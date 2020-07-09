@@ -3,6 +3,8 @@
 
 namespace TicTacToe
 {
+	constexpr unsigned int BoardSize = 3;
+
 	class TicTacToeConsole : public ConsoleGame
 	{
 	public:
@@ -16,7 +18,10 @@ namespace TicTacToe
 		void Draw() override;
 
 	private:
-		void askForPlayerInput();
-		void drawBoard();
+		unsigned char BoardData [BoardSize][BoardSize];
+
+		void InitialiseBoard();
+		void AskForPlayerInput();
+		void DrawBoard();
 	};
 }
