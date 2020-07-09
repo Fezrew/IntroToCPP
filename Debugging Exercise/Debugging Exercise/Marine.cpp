@@ -23,7 +23,7 @@ Marine::~Marine()
 #if random true
 void Marine::isLegend()
 {
-	legendAttack = rand() % 15 + 10;
+	legendAttack = rand() % 36 + 20;
 	legendary = true;
 }
 #endif

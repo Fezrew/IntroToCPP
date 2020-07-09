@@ -64,28 +64,29 @@ int main()
 #if random true
 
 	srand((int)time(nullptr));
-	const int squadSize = rand() % 31 + 15;				//45 max
-		const int swarmSize = rand() % 201 + 140;		//340 max
+	const int squadSize = rand() % 16 + 30;				//30 - 45
+		const int swarmSize = rand() % 261 + 260;		//260 - 520
 	squad.reserve(squadSize);
 	int legends = 0;
 	int deadLegends = 0;
 	int zergRush = 0;
+	int chipDamage = 0;
 
 	for (size_t i = 0; i < squadSize; i++)
 	{
-		squad.push_back(Marine(rand() % 1101 + 700));
+		squad.push_back(Marine(rand() % 1101 + 900));
 	}
 	
 	for (size_t i = 0; i < squadSize; i++)
 	{
-		if (squad[i].maxHealth > 1700)
+		if (squad[i].maxHealth > 1850)
 		{
 			squad[i].isLegend();
 			legends++;
 		}
 		if (!squad[i].legendary)
 		{
-			if (rand() % 8 == 0)
+			if (rand() % 6 == 0)
 			{
 				squad[i].isLegend();
 				legends++;
@@ -147,6 +148,7 @@ int main()
 					if (squad[i].legendary)
 					{
 						cout << "\x1b[96mA legendary marine fires for " << damage << " exquisite damage.\x1b[0m\n";
+						chipDamage = damage - swarm[0].getHealth();
 					}
 					else
 					{
@@ -160,15 +162,40 @@ int main()
 #if random true
 						if (squad[i].legendary)
 						{
-							cout << "\x1b[96mA legendary has vanquised a foe\x1b[0m\n\n";
+							int chipStored = 0;
+							int nowDead = 1;
+							
+							for (nowDead; nowDead > 0; nowDead--)
+							{
+
+								if (zerglingAlive(swarm))
+								{
+									chipStored = chipDamage - swarm[0].getHealth();
+									swarm[0].takeDamage(chipDamage);
+									chipDamage = chipStored;
+								}
+								
+								if (!zerglingAlive(swarm))
+								{
+									nowDead = 0;
+								}
+								else if (!swarm[0].isAlive())
+								{
+									nowDead++;
+									swarm.erase(swarm.begin());
+									deadZerg++;
+									cout << "\x1b[96mA legendary has vanquised a foe\x1b[0m\n";
+								}
+							}
+							cout << endl;
 						}
 						else
 						{
 							cout << "The zergling target dies\n\n";
+							swarm.erase(swarm.begin());
+							deadZerg++;
 						}
 #endif
-						swarm.erase(swarm.begin());
-						deadZerg++;
 					}
 				}
 			}
@@ -198,7 +225,7 @@ int main()
 #if random true
 					if (squad[0].legendary)
 					{
-						squad[0].takeDamage(damage / 2);
+						squad[0].takeDamage(damage / 3);
 					}
 					else
 					{

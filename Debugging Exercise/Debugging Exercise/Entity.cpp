@@ -26,6 +26,11 @@ void Entity::takeDamage(int damage)
 		health = 0;
 }
 
+int Entity::getHealth()
+{
+	return health;
+}
+
 bool Entity::isAlive()
 {
 	return health > 0;
