@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-//#define random
+#define random
 
 class Marine : public Entity
 {
@@ -11,7 +11,7 @@ public:
 
 	int attack() override;
 
-#if random //true
+#if random true
 	void isLegend();
 	bool legendary = false;
 private:

@@ -1,7 +1,7 @@
 #include "Marine.h"
 #include <random>
 #include <time.h>
-//#define random
+#define random
 
 
 
@@ -20,7 +20,7 @@ Marine::~Marine()
 {
 }
 
-#if random //true
+#if random true
 void Marine::isLegend()
 {
 	legendAttack = rand() % 15 + 10;
@@ -30,7 +30,7 @@ void Marine::isLegend()
 
 int Marine::attack()
 {
-#if random //true
+#if random true
 	return rand() % (26 + legendAttack) + 25 + legendAttack;
 #else
 	return 10;

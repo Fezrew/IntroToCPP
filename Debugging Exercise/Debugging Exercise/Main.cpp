@@ -23,7 +23,7 @@
 //If you want random health & damage (Despite true random always giving warnings), 
 //uncomment this define & all "#if random true" expressions in Main, Marine.cpp, Marine.h and Zergling.cpp
 
-//#define random
+#define random
 
 using std::vector;
 using std::cout;
@@ -49,19 +49,27 @@ int main()
 	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 	SetConsoleMode(hOut, dwMode);
 
+#pragma region Set-up
+
+
 	vector<Marine> squad;
 	vector<Zergling> swarm;
 	typedef vector<Zergling>::iterator ZergIter;
+	int damageTaken = 0;
+	int deadMarine = 0;
+	int deadZerg = 0;
 
 	// Set up the Squad and the Swarm at their initial sizes listed above
 
-#if random //true
+#if random true
 
-	srand(time(nullptr));
-	const int squadSize = rand() % 31 + 15;
-	const int swarmSize = rand() % 300 + 150;
+	srand((int)time(nullptr));
+	const int squadSize = rand() % 31 + 15;				//45 max
+		const int swarmSize = rand() % 201 + 140;		//340 max
 	squad.reserve(squadSize);
 	int legends = 0;
+	int deadLegends = 0;
+	int zergRush = 0;
 
 	for (size_t i = 0; i < squadSize; i++)
 	{
@@ -90,8 +98,7 @@ int main()
 		swarm.push_back(Zergling(rand() % 50 + 1));
 	}
 
-	int deadLegends = 0;
-	int zergRush = 0;
+	
 #else
 	const int squadSize = 10;
 	const int swarmSize = 20;
@@ -109,19 +116,19 @@ int main()
 		swarm.push_back(z);
 	}
 #endif
-	int damageTaken = 0;
-	int deadMarine = 0;
-	int deadZerg = 0;
 
-#if random //true
+#if random true
 	cout << "A squad of " << squadSize << " marines with " << legends << " legends approaches a swarm of " << swarmSize << " Zerglings and opens fire! The Zerglings charge!\n";
 #else
 	cout << "A squad of " << squadSize << " marines approaches a swarm of " << swarmSize << " Zerglings and opens fire! The Zerglings charge!\n";
 #endif
+#pragma endregion
 
 	// Attack each other until only one team is left alive
 	while (marineAlive(squad) && zerglingAlive(swarm)) // If anyone is left alive to fight . . .
 	{
+#pragma region Marine Attacks
+
 		if (marineAlive(squad)) // if there's at least one marine alive
 		{
 			cout << "\n";
@@ -136,25 +143,29 @@ int main()
 				{
 					// each marine will attack the first zergling in the swarm
 					int damage = squad[i].attack();
-#if random //true
+#if random true
 					if (squad[i].legendary)
 					{
 						cout << "\x1b[96mA legendary marine fires for " << damage << " exquisite damage.\x1b[0m\n";
 					}
-#else
-					cout << "A marine fires for " << damage << " damage.\n";
+					else
+					{
+						cout << "A marine fires for " << damage << " damage.\n";
+					}
 #endif
 					//Attack the first zergling
 					swarm[0].takeDamage(damage);
 					if (!swarm[0].isAlive()) // if the zergling dies, it is removed from the swarm
 					{
-#if random //true
+#if random true
 						if (squad[i].legendary)
 						{
 							cout << "\x1b[96mA legendary has vanquised a foe\x1b[0m\n\n";
 						}
-#else
+						else
+						{
 							cout << "The zergling target dies\n\n";
+						}
 #endif
 						swarm.erase(swarm.begin());
 						deadZerg++;
@@ -163,6 +174,9 @@ int main()
 			}
 			cout << endl << deadZerg << " Zerglings have been purged. " << swarmSize - deadZerg << " remain.\n";
 		}
+#pragma endregion
+
+#pragma region Zergling Attack
 
 		if (marineAlive(squad)) // if there's at least one marine alive
 		{
@@ -176,23 +190,25 @@ int main()
 				else
 				{
 					int damage = swarm[i].attack();
-#if random //true
+#if random true
 					zergRush++;
 #else
 					cout << "A zergling attacks for " << damage << " damage.\n";
 #endif
-#if random //true
+#if random true
 					if (squad[0].legendary)
 					{
 						squad[0].takeDamage(damage / 2);
 					}
-#else
+					else
+					{
 						squad[0].takeDamage(damage);
+					}
 #endif
 					damageTaken += damage;
 					if (!squad[0].isAlive())
 					{
-#if random //true
+#if random true
 						cout << "\x1b[91m";
 						if (squad[0].legendary)
 						{
@@ -215,19 +231,20 @@ int main()
 					}
 				}
 			}
-#if random //true
+#if random true
 			cout << "\n\x1b[92m" << deadMarine << " Marines have fallen, " << deadLegends << " of whom were legendary. " << squadSize - deadMarine << " Marines fight on.\x1b[0m\n";
 #else
 			cout << "\n\x1b[92m" << deadMarine << " Marines have fallen. " << squadSize - deadMarine << " fight on.\x1b[0m\n";
 #endif
 		}
 	}
+#pragma endregion
 
 	// Once one team is completely eliminated, the fight ends and one team wins
 	cout << "The fight is over. ";
 	if (marineAlive(squad))
 	{
-#if random //true
+#if random true
 		cout << "The " << squadSize - deadMarine - legends << " Marines and their " << legends << " surviving legends have won.\n";
 #else
 		cout << "The " << squadSize - deadMarine << " surviving Marines have won.\n";
