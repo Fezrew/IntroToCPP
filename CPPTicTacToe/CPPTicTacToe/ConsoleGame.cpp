@@ -20,7 +20,7 @@ namespace TicTacToe
 		cout << "====================\n";
 		cout << "Welcome to " << gameName << endl;
 		cout << "====================\n";
-		cout << "Press any key to start...\n\n";
+		cout << "Press Enter to start...\n\n";
 		getchar();
 	}
 

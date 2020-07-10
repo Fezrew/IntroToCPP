@@ -35,8 +35,9 @@ namespace TicTacToe
 		DrawBoard();
 	}
 
-	void TicTacToeConsole::InitialiseBoard()
+	void TicTacToeConsole::InitialiseGame()
 	{
+		currentPlayer = 1;
 		for (int row = 0; row < BoardSize; row++)
 		{
 			for (int col = 0; col < BoardSize; col++)
@@ -48,21 +49,60 @@ namespace TicTacToe
 
 	void TicTacToeConsole::AskForPlayerInput()
 	{
-		string userInput;
-		cout << "Enter command (Q)uit > ";
-		cin.ignore(cin.rdbuf()->in_avail());
-		cin >> userInput;
+		cout << "Player " << (int)currentPlayer << "'s turn\n";
+		cout << "Enter command\n";
+		cout << "(Numpad 1-9) Enter Tile\n";
+		cout << "(R)estart\n";
+		cout << "(Q)uit\n";
 
-		if (userInput == "Q" || userInput == "q")
+		char userInput;
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin.get(userInput);
+
+		if (userInput == 'Q' || userInput == 'q')
 		{
 			isGameRunning = false;
+		}
+		else if (userInput == 'R' || userInput == 'r')
+		{
+			InitialiseGame();
+		}
+		else
+		{
+			try
+			{
+				
+				int position = userInput - '0'; // converting a char (0-9) to an int
+
+				if ((position >= 1) && (position <= 9))
+				{
+					int row = getRow(position);
+					int col = getCol(position);
+
+					//Update the board to have the current player's piece
+					BoardData[row][col] = currentPlayer;
+
+					//Update the current player
+					if (currentPlayer == 1)
+					{
+						currentPlayer = 2;
+					}
+					else if(currentPlayer == 2)
+					{
+						currentPlayer = 1;
+					}
+				}
+			}
+			catch (...)
+			{
+				cout << "Invalid input, try again...\n";
+			}
 		}
 	}
 
 	void TicTacToeConsole::DrawBoard()
 	{
 		system("cls");
-		//cout << "Draw board" << endl;
 
 		for (int row = 0; row < BoardSize; row++)
 		{
@@ -99,5 +139,13 @@ namespace TicTacToe
 				cout << endl;
 			}
 		}
+	}
+	int TicTacToeConsole::getRow(int position)
+	{
+		return (BoardSize - 1) - ((position-1) / BoardSize);
+	}
+	int TicTacToeConsole::getCol(int position)
+	{
+		return (position -1 ) % BoardSize;
 	}
 }
