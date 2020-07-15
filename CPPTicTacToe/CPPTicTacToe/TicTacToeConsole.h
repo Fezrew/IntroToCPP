@@ -27,5 +27,9 @@ namespace TicTacToe
 
 		int getRow(int position);
 		int getCol(int position);
+
+		bool isGameOver();
+		bool checkWin(int);
+		bool isFull();
 	};
 }
