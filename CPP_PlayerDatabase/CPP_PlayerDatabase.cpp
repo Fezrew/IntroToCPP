@@ -1,11 +1,11 @@
+// CPP_PlayerDatabase.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
 #include <iostream>
 
-
-using namespace std;
-
-void main()
+int main()
 {
-    cout << "Hello World!\n";
+    std::cout << "Hello World!\n";
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
