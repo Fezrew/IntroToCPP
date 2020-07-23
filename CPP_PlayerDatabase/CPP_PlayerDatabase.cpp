@@ -2,10 +2,18 @@
 //
 
 #include <iostream>
+#include "PlayerDatabase.h"
+
+using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    cout << "---------------------------\n";
+    cout << "Player Database\n";
+    cout << "---------------------------\n";
+
+    PlayerDatabase playerDatabase;
+    playerDatabase.Run();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
