@@ -21,6 +21,9 @@ private:
 	Leaderboard leaderboard;
 
 	void displayMenu();
+	void addNewPlayer();
+	void modifyPlayer();
+	void Sort();
 	string getMenuOption();
 };
 

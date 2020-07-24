@@ -3,10 +3,15 @@ class Player
 {
 public:
 
+	static const unsigned int MaxScore = 1000;
 	static const unsigned int MaxNameLength = 50;
+
 	Player(const char* _name = "", unsigned int highscore = 0);
 
 	void Draw();
+	bool LoadFromConsole();
+
+	bool operator < (const Player & other);
 
 private:
 	char name[MaxNameLength] = {};
