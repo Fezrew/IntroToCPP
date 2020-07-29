@@ -1,5 +1,6 @@
 #include "Leaderboard.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -42,6 +43,30 @@ void Leaderboard::Draw()
 	{
 		cout << "... Empty ...\n";
 	}
+}
+
+bool comparePlayerScores(const Player& lhs, const Player& rhs)
+{
+	return lhs.GetHighScore() > rhs.GetHighScore();
+}
+
+
+void Leaderboard::SortByHighscore()
+{
+	//sort(playerList, playerList + playersInUse);
+
+	sort(playerList, playerList + playersInUse, comparePlayerScores);
+}
+
+bool comparePlayerNames(const Player& lhs, const Player& rhs)
+{
+	
+	return (strcmp(lhs.GetName(), rhs.GetName()) < 0);
+}
+
+void Leaderboard::SortByName()
+{
+	sort(playerList, playerList + playersInUse, comparePlayerNames);
 }
 
 void Leaderboard::AddPlayer(const string& name, unsigned int score)

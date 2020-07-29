@@ -1,5 +1,6 @@
 #include "PlayerDatabase.h"
 #include "iostreamUtils.h"
+#include "Player.h"
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -14,6 +15,9 @@ void PlayerDatabase::Init()
 	{
 		leaderboard.AddPlayer("Me", 100);
 		leaderboard.AddPlayer("You", 50);
+
+		//Sort players by highscore
+		leaderboard.SortByHighscore();
 	}
 	catch(exception & err)
 	{
@@ -45,9 +49,13 @@ void PlayerDatabase::Update()
 	{
 		modifyPlayer();
 	}
-	else if (menuOption == "s")
+	else if (menuOption == "h")
 	{
-		Sort();
+		leaderboard.SortByHighscore();
+	}
+	else if (menuOption == "n")
+	{
+		leaderboard.SortByName();
 	}
 	else if (menuOption == "c")
 	{
@@ -71,8 +79,12 @@ void PlayerDatabase::displayMenu()
 	cout << "\n=== Menu ===\n";
 	cout << "A)dd Player\n";
 	cout << "M)odify Player\n";
-	cout << "S)ort Leaderboard\n";
-	cout << "C)lear Leaderboard\n";
+	cout << "C)lear Leaderboard\n\n";
+
+	cout << "Sort Leaderboard by:\n";
+	cout << "H)ighscore\n";
+	cout << "N)ame\n\n";
+
 	cout << "Q)uit\n";
 	cout << "------------------\n";
 	cout << ">";
@@ -85,6 +97,7 @@ void PlayerDatabase::addNewPlayer()
 		Player p;
 		if (p.LoadFromConsole())
 		{
+			//Add a player to the leaderboard
 			leaderboard.AddPlayer(p);
 		}
 	}
@@ -104,13 +117,8 @@ void PlayerDatabase::modifyPlayer()
 
 	if (pos < leaderboard.PlayersInUse())
 	{
-		leaderboard[pos].LoadFromConsole();
+		leaderboard[pos -1].LoadFromConsole();
 	}
-}
-
-void PlayerDatabase::Sort()
-{
-	sort(leaderboard.begin(), leaderboard.end());
 }
 
 string PlayerDatabase::getMenuOption()

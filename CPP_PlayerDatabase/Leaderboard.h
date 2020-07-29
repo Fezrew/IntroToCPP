@@ -15,12 +15,13 @@ public:
 	bool IsEmpty() const { return playersInUse == 0; }
 	bool IsFull() const { return playersInUse >= maxPlayers; }
 
-
 	unsigned int PlayersInUse() const { return playersInUse; }
 	unsigned int MaxPlayers() const { return maxPlayers; }
 
 	void Clear();
 	void Draw();
+	void SortByHighscore();
+	void SortByName();
 	void AddPlayer(const string& name, unsigned int score);
 	void AddPlayer(const Player& player);
 	

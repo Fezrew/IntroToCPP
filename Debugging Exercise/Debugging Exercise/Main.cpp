@@ -60,7 +60,7 @@ int main()
 
 #if random true
 
-	srand((int)time(nullptr));
+	srand((unsigned int)time(nullptr));
 	const int squadSize = rand() % 16 + 30;				//30 - 45
 		const int swarmSize = rand() % 261 + 260;		//260 - 520
 	squad.reserve(squadSize);
