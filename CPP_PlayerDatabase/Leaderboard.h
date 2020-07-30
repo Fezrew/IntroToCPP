@@ -24,6 +24,9 @@ public:
 	void SortByName();
 	void AddPlayer(const string& name, unsigned int score);
 	void AddPlayer(const Player& player);
+
+	//Binary search the collection and updates pos when true(When it finds the position)
+	bool Search(const string& name, unsigned int& posFound);
 	
 	Player& operator [](unsigned int pos);
 

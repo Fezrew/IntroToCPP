@@ -45,9 +45,19 @@ void PlayerDatabase::Update()
 	{
 		addNewPlayer();
 	}
-	if (menuOption == "m")
+	else if (menuOption == "m")
 	{
-		modifyPlayer();
+		cout << "Search by player (I)ndex or (N)ame?\n> ";
+		string modifyOption = getMenuOption();
+		
+		if (modifyOption == "i")
+		{
+			modifyPlayerByIndex();
+		}
+		else if (modifyOption == "n")
+		{
+			modifyPlayerByName();
+		}
 	}
 	else if (menuOption == "h")
 	{
@@ -108,16 +118,32 @@ void PlayerDatabase::addNewPlayer()
 	}
 }
 
-void PlayerDatabase::modifyPlayer()
+void PlayerDatabase::modifyPlayerByIndex()
 {
 	cinClear();
-	cout << "Select player number to modify\n> ";
+	cout << "Select player index to modify\n> ";
 	unsigned int pos;
 	cin >> pos;
 
-	if (pos < leaderboard.PlayersInUse())
+	if (pos <= leaderboard.PlayersInUse())
 	{
 		leaderboard[pos -1].LoadFromConsole();
+	}
+}
+
+void PlayerDatabase::modifyPlayerByName()
+{
+	cinClear();
+	cout << "Select name of player to modify\n> ";
+	string name;
+	cin >> name;
+
+	//Perform a binary search for the player and return it's postition to the array
+	unsigned int pos = 0;
+
+	if (leaderboard.Search(name, pos))
+	{
+		leaderboard[pos].LoadFromConsole();
 	}
 }
 

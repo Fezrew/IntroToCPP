@@ -22,7 +22,8 @@ private:
 
 	void displayMenu();
 	void addNewPlayer();
-	void modifyPlayer();
+	void modifyPlayerByIndex();
+	void modifyPlayerByName();
 	string getMenuOption();
 };
 

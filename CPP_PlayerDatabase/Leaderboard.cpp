@@ -92,6 +92,37 @@ void Leaderboard::Clear()
 	playersInUse = 0;
 }
 
+bool Leaderboard::Search(const string& name, unsigned int& posFound)
+{
+	//Sort collection before beginning binary search
+	SortByName();
+
+	unsigned int l = 0;
+	unsigned int r = playersInUse - 1;
+	unsigned int m;
+
+	while (l <= r)
+	{
+		m = (l + r) / 2;
+
+		if (name == playerList[m].GetName())
+		{
+			posFound = m;
+			return true;
+		}
+		else if (name < playerList[m].GetName())
+		{
+			r = m - 1;
+		}
+		else if (name > playerList[m].GetName())
+		{
+			l = m + 1;
+		}
+	}
+
+	return false;
+}
+
 Player& Leaderboard::operator[](unsigned int pos)
 {
 	if (pos > playersInUse)
