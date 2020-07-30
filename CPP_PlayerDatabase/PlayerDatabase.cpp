@@ -8,27 +8,41 @@
 
 using namespace std;
 
+#pragma region Game Management
+
 void PlayerDatabase::Init()
 {
 	//Load leaderboard from file
 	try
 	{
-		leaderboard.AddPlayer("Me", 100);
-		leaderboard.AddPlayer("You", 50);
+		leaderboard.Load(LeaderboardFilename);
 
 		//Sort players by highscore
-		leaderboard.SortByHighscore();
+		leaderboard.SortByPoints();
 	}
-	catch(exception & err)
+	catch (exception & err)
 	{
 		cout << "Error: " << err.what() << endl;
-		getchar();
+		int ch = getchar();
 	}
 }
 
 void PlayerDatabase::Shutdown()
 {
 	//Save the leaderboard to file
+	
+	string quitOption;
+
+	while (quitOption != "y" && quitOption != "n")
+	{
+		cout << "Save? Y/N\n> ";
+		quitOption = getMenuOption();
+		                        
+		if (quitOption == "y")
+		{
+			leaderboard.Save(LeaderboardFilename);
+		}
+	}
 }
 
 bool PlayerDatabase::IsGameRunning()
@@ -41,15 +55,18 @@ void PlayerDatabase::Update()
 	displayMenu();
 	string menuOption = getMenuOption();
 
+	//If Adding player
 	if (menuOption == "a")
 	{
 		addNewPlayer();
 	}
+
+	//If Modifying player
 	else if (menuOption == "m")
 	{
 		cout << "Search by player (I)ndex or (N)ame?\n> ";
 		string modifyOption = getMenuOption();
-		
+
 		if (modifyOption == "i")
 		{
 			modifyPlayerByIndex();
@@ -59,23 +76,56 @@ void PlayerDatabase::Update()
 			modifyPlayerByName();
 		}
 	}
-	else if (menuOption == "h")
+
+	//If sorting players
+	else if (menuOption == "p")
 	{
-		leaderboard.SortByHighscore();
+		leaderboard.SortByPoints();
 	}
 	else if (menuOption == "n")
 	{
 		leaderboard.SortByName();
 	}
+
+	//Clear the leaderboard
 	else if (menuOption == "c")
 	{
 		leaderboard.Clear();
 	}
+
+	//Save the leaderboard
+	else if (menuOption == "s")
+	{
+		if (!leaderboard.Save(LeaderboardFilename))
+		{
+			cerr << "Error saving file: " << LeaderboardFilename << endl;
+			int ch = getchar();
+		}
+	}
+
+	//Load the leaderboard
+	else if (menuOption == "l")
+	{
+		if (!leaderboard.Load(LeaderboardFilename))
+		{
+			cerr << "Error loading file: " << LeaderboardFilename << endl;
+			int ch = getchar();
+		}
+		else
+		{
+			leaderboard.SortByPoints();
+		}
+	}
+
+	//Close the application
 	else if (menuOption == "q")
 	{
 		isGameRunning = false;
 	}
 }
+#pragma endregion
+
+#pragma region Text Management
 
 void PlayerDatabase::Draw()
 {
@@ -92,13 +142,18 @@ void PlayerDatabase::displayMenu()
 	cout << "C)lear Leaderboard\n\n";
 
 	cout << "Sort Leaderboard by:\n";
-	cout << "H)ighscore\n";
+	cout << "P)oints\n";
 	cout << "N)ame\n\n";
 
+	cout << "S)ave\n";
+	cout << "L)oad\n";
 	cout << "Q)uit\n";
 	cout << "------------------\n";
-	cout << ">";
+	cout << "> ";
 }
+#pragma endregion
+
+#pragma region Database Management
 
 void PlayerDatabase::addNewPlayer()
 {
@@ -114,7 +169,7 @@ void PlayerDatabase::addNewPlayer()
 	else
 	{
 		cout << "Leaderboard is full\n";
-		getchar();
+		int ch = getchar();
 	}
 }
 
@@ -127,7 +182,7 @@ void PlayerDatabase::modifyPlayerByIndex()
 
 	if (pos <= leaderboard.PlayersInUse())
 	{
-		leaderboard[pos -1].LoadFromConsole();
+		leaderboard[pos - 1].LoadFromConsole();
 	}
 }
 
@@ -153,7 +208,11 @@ string PlayerDatabase::getMenuOption()
 	cinClear(); //Clear pending input
 	cin >> userInput;
 
+
 	transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
 	return userInput;
 }
+#pragma endregion
+
+
 

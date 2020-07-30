@@ -6,6 +6,7 @@
 class PlayerDatabase : public Game
 {
 public:
+	const char* LeaderboardFilename = "leaderboard.dat";
 
 protected:
 	virtual void Init() override;
