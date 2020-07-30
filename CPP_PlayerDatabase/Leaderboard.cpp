@@ -1,10 +1,10 @@
 #include "Leaderboard.h"
+#include "iostreamUtils.h"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
 
 using namespace std;
-
 
 Leaderboard::Leaderboard(unsigned int _maxPlayers) : maxPlayers(_maxPlayers), playersInUse(0)
 {
@@ -95,11 +95,6 @@ void Leaderboard::Draw()
 void Leaderboard::Clear()
 {
 	playersInUse = 0;
-}
-
-void Leaderboard::Hack()
-{
-
 }
 
 bool Leaderboard::Search(const string& name, unsigned int& posFound)

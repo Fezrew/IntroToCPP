@@ -3,6 +3,7 @@
 #include "Player.h"
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 #include <algorithm>
 
@@ -117,6 +118,12 @@ void PlayerDatabase::Update()
 		}
 	}
 
+	//What does hack do???
+	else if (menuOption == "h")
+	{
+		hackLeaderboard();
+	}
+
 	//Close the application
 	else if (menuOption == "q")
 	{
@@ -147,6 +154,7 @@ void PlayerDatabase::displayMenu()
 
 	cout << "S)ave\n";
 	cout << "L)oad\n";
+	cout << "H)ack\n";
 	cout << "Q)uit\n";
 	cout << "------------------\n";
 	cout << "> ";
@@ -200,6 +208,49 @@ void PlayerDatabase::modifyPlayerByName()
 	{
 		leaderboard[pos].LoadFromConsole();
 	}
+}
+
+void PlayerDatabase::hackLeaderboard()
+{
+	cinClear();
+
+	cout << "Select name of player to modify\n> ";
+	string name;
+	cin >> name;
+
+	fstream f(LeaderboardFilename, ios_base::in | ios_base::out | ios_base::binary);
+	if (f.good())
+	{
+		//Read past header info (maxplayers/playersInUse)
+		unsigned int maxPlayers, playersInUse;
+		
+		f.read((char*)&maxPlayers, sizeof(maxPlayers));
+		f.read((char*)&playersInUse, sizeof(playersInUse));
+
+		//Read Players one at a time and test their names
+		Player p;
+		while (!f.eof())
+		{
+			f.read((char*)& p, sizeof(Player));
+
+			if (name == p.GetName())
+			{
+				cout << "Found player: " << name << endl;
+				p.Draw();
+				f.close();
+				return;
+			}
+		}
+
+		f.close();
+	}
+	else
+	{
+		cerr << "Failed to find player: " << name << endl;
+	}
+
+	cinClear();
+	int ch = getchar();
 }
 
 string PlayerDatabase::getMenuOption()

@@ -23,7 +23,6 @@ public:
 
 	void Clear();
 	void Draw();
-	void Hack();
 	void SortByPoints();
 	void SortByName();
 	void AddPlayer(const string& name, unsigned int score);

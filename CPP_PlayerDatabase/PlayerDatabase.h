@@ -25,6 +25,7 @@ private:
 	void addNewPlayer();
 	void modifyPlayerByIndex();
 	void modifyPlayerByName();
+	void hackLeaderboard();
 	string getMenuOption();
 };
 
