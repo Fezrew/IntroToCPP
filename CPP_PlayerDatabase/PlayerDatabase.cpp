@@ -6,6 +6,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <algorithm>
+#include <conio.h>
 
 using namespace std;
 
@@ -235,20 +236,33 @@ void PlayerDatabase::hackLeaderboard()
 
 			if (name == p.GetName())
 			{
-				cout << "Found player: " << name << endl;
-				p.Draw();
+				cout << "Found player: "<< name << endl;
+
+				//Read new player data
+				p.LoadFromConsole();
+
+				//Move cursor to the start of this player in the file
+				constexpr int sizeOfPlayer = sizeof(Player);
+				f.seekg(-sizeOfPlayer, f.cur);
+
+				//Overwrite the file data
+				f.write((const char*)&p, sizeof(Player));
+
 				f.close();
+
+				cinClear();
+				int ch = getchar();
 				return;
 			}
 		}
 
+		cerr << "Failed to find player: " << name << endl;
 		f.close();
 	}
 	else
 	{
-		cerr << "Failed to find player: " << name << endl;
+		cerr << "Failed to load player: " << LeaderboardFilename << endl;
 	}
-
 	cinClear();
 	int ch = getchar();
 }
